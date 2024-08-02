@@ -1,0 +1,2108 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model acc_transaction {
+  Trans_ID         Int     @id @default(autoincrement())
+  Ref_Code         String? @db.Text
+  Date             String? @default("1999-01-01") @db.VarChar(250)
+  Time             String? @default("00:00:00") @db.VarChar(250)
+  Acc_ID           Int?    @default(0)
+  Account_Name     String? @db.Text
+  Transaction_Type String? @db.Text
+  Description      String? @db.Text
+  Note             String? @db.Text
+  Is_Transfer      Int?    @default(0)
+  Other_Account    String? @db.Text
+  Amount           Float?  @default(0)
+  Balance          Float?  @default(0)
+  Status           Float?  @default(0)
+}
+
+model account_assign {
+  ID             Int     @id @default(autoincrement())
+  Account_ID     Int?    @default(0)
+  System_Account String? @db.Text
+  Note           String? @db.Text
+}
+
+model account_types {
+  Acc_Type_ID      Int     @id @default(autoincrement())
+  Type             String? @db.Text
+  Name             String? @db.Text
+  Description      String? @db.Text
+  Attributes       String? @db.Text
+  Tracking_Account Int?    @default(1)
+}
+
+model accounts {
+  Acc_ID                Int     @id @default(autoincrement())
+  Account_Code          String? @db.Text
+  Account_Type          String? @db.Text
+  Detail_Type           String? @db.Text
+  Tracking_Account      Int?    @default(0)
+  Attributes            String? @db.Text
+  Name                  String? @db.Text
+  Description           String? @db.Text
+  Note                  String? @db.Text
+  Color                 String? @db.Text
+  Current_Amount        Float?  @default(0)
+  Last_Transaction_Date String? @default("1999-01-01") @db.VarChar(250)
+  Created_Date          String? @default("1999-01-01") @db.VarChar(250)
+  Status                String? @db.Text
+}
+
+model appo_service_providers {
+  service_provider_id Int     @id @default(autoincrement())
+  name                String? @db.Text
+  job_title           String? @db.Text
+  description         String? @db.Text
+  Email               String? @db.Text
+  Phone               String? @db.Text
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model appo_services {
+  service     String?  @db.Text
+  Description String?  @db.Text
+  Duration    Decimal? @db.Decimal(10, 0)
+  Price       Decimal? @db.Decimal(10, 0)
+
+  @@ignore
+}
+
+model appointment {
+  Appo_ID             Int      @id @default(autoincrement())
+  Cust_ID             String?  @db.Text
+  Service             String?  @db.Text
+  Service_Provider_ID String?  @db.Text
+  Date                String?  @db.Text
+  Time                String?  @db.Text
+  Duration            Decimal? @db.Decimal(10, 0)
+  Branch              String?  @db.Text
+  Note                String?  @db.Text
+  Cell_Index          Decimal? @default(0) @db.Decimal(10, 0)
+  Status              String?  @db.Text
+}
+
+model barcode_product_list {
+  Item_Id     String @id @db.VarChar(250)
+  print_count Int?   @default(0)
+}
+
+model barcode_templates {
+  template_id     Int     @id
+  printing_method String? @db.Text
+  template_name   String? @db.Text
+  label_size      String? @db.Text
+  label_columns   String? @db.Text
+  active_mode     Int?    @default(1)
+  description     String? @db.Text
+  file_path       String? @db.Text
+}
+
+model bill {
+  Bill_ID           Int     @id @default(autoincrement())
+  Custom_Bill_ID    String? @db.Text
+  Date              String? @default("1999-01-01") @db.VarChar(250)
+  Time              String? @default("00:00:00") @db.VarChar(250)
+  Status            String? @db.Text
+  Cust_Group_Name   String? @db.Text
+  Cust_ID           Int?    @default(-1)
+  Cust_Name         String? @db.Text
+  Cust_Phone        String? @db.Text
+  Cust_Address1     String? @db.Text
+  Cust_Address2     String? @db.Text
+  Cust_Address3     String? @db.Text
+  Cust_Email        String? @db.Text
+  Cust_NIC          String? @db.Text
+  Payment_Method    String? @db.Text
+  SubTotal          Float?  @default(0)
+  Discount          Float?  @default(0)
+  DisPercentage     Float?  @default(0)
+  Total             Float?  @default(0)
+  Paid              Float?  @default(0)
+  Due_Amount        Float?  @default(0)
+  Balance           Float?  @default(0)
+  Remark            String  @db.Text
+  Note              String? @db.Text
+  Manual_No         String? @db.Text
+  TotalUnitPrice    Float?  @default(0)
+  TotalUnitDiscount Float?  @default(0)
+  EmpID             String? @default("-1") @db.VarChar(250)
+  SalesmenCode      String? @db.Text
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model bill_items {
+  List_Order     Int?    @default(1)
+  Bill_ID        Int?    @default(0)
+  Custom_Bill_ID String? @db.Text
+  Item_Name      String? @db.Text
+  Qty            Float?  @default(0)
+  Price          Float?  @default(0)
+  Discount       Float?  @default(0)
+  DisPercentage  Float?  @default(0)
+  Line_Total     Float?  @default(0)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model branch_list {
+  Branch_ID            String? @db.Text
+  Branch_Name          String? @db.Text
+  CompanyLegalName     String? @db.Text
+  Address1             String? @db.Text
+  Address2             String? @db.Text
+  Address3             String? @db.Text
+  Region               String? @db.Text
+  PostalCode           String? @db.Text
+  Country              String? @db.Text
+  Phone1               String? @db.Text
+  Phone2               String? @db.Text
+  Fax                  String? @db.Text
+  Email                String? @db.Text
+  Web                  String? @db.Text
+  Description          String? @db.Text
+  GST_Number           String? @db.Text
+  VAT_Number           String? @db.Text
+  Enable_AFK           Int?    @default(0)
+  AFK_Action           String? @db.Text
+  Mask_Type            String? @db.Text
+  AFK_Minutes          Int?    @default(50)
+  MultipleCashRegister Int?    @default(1)
+
+  @@ignore
+}
+
+model cash_management {
+  cm_id       Int     @id @default(autoincrement())
+  user_id     String? @db.Text
+  user_name   String? @db.Text
+  person_name String? @db.Text
+  person_nic  String? @db.Text
+  amount      Float?  @default(0)
+  reason      String? @db.Text
+  remark      String? @db.Text
+  Date        String? @default("1999-01-01") @db.VarChar(250)
+  dateTime    String? @default("1999-01-01 00:00:00") @db.VarChar(250)
+  status      String? @db.Text
+  cashReg_Id  Int?    @default(0)
+  type        String? @default("Business") @db.VarChar(150)
+}
+
+model cash_register {
+  cash_reg_id Int     @id @default(autoincrement())
+  date        String? @default("1999-01-01 00:00:00") @db.VarChar(250)
+  user        String? @db.Text
+  status      String? @db.Text
+  Terminal    String? @db.Text
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model cash_register_close {
+  cash_reg_id   Int
+  expected      Float?  @default(0)
+  counted       Float?  @default(0)
+  differences   Float?  @default(0)
+  note          String? @db.Text
+  opening_float Float?  @default(0)
+  opening_date  String? @default("1999-01-01") @db.VarChar(150)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model cash_register_open {
+  cash_reg_id   Int
+  opening_float Float?  @default(0)
+  note          String? @db.Text
+  last_inv_id   String? @db.Text
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model category {
+  Cat_Name    String? @db.Text
+  Description String? @db.Text
+
+  @@ignore
+}
+
+model cheque_commision_range {
+  CommisionID         Int     @id @default(autoincrement())
+  EmpID_auto          Int?    @default(0)
+  EmpID               String? @db.Text
+  NoOfDays            Int?    @default(0)
+  CommisionPercentage Float?  @default(0)
+  FromD               Int?    @default(0)
+  ToD                 Int?    @default(0)
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model company {
+  Logo             String? @db.Text
+  BusinessName     String? @db.Text
+  Address1         String? @db.Text
+  Address2         String? @db.Text
+  Address3         String? @db.Text
+  Phone1           String? @db.Text
+  Phone2           String? @db.Text
+  Fax              String? @db.Text
+  Email            String? @db.Text
+  Web              String? @db.Text
+  Description      String? @db.Text
+  Region           String? @db.Text
+  PostalCode       String? @db.Text
+  Country          String? @db.Text
+  CompanyLegalName String? @db.Text
+  GST_Number       String? @db.Text
+  VAT_Number       String? @db.Text
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model composite_items {
+  main_item_id      String? @db.Text
+  composite_item_id String? @db.Text
+  qty               Float?  @default(0)
+
+  @@ignore
+}
+
+model customer {
+  Cust_ID                  Int     @id @default(autoincrement())
+  NIC                      String? @db.Text
+  Cust_Name                String? @db.Text
+  Phone                    String? @db.Text
+  Phone_Land               String? @db.Text
+  Email                    String? @db.Text
+  Address1                 String? @db.Text
+  Address2                 String? @db.Text
+  Address3                 String? @db.Text
+  Date_Of_Birth            String? @default("1999-01-01") @db.VarChar(250)
+  Gender                   String? @db.Text
+  Cus_Group_Name           String? @db.Text
+  Remark                   String? @db.Text
+  Credit_Card_Type         String? @db.Text
+  Card_Number              String? @db.Text
+  Expiration_date          String? @default("1999-01-01") @db.VarChar(250)
+  Credit_Card_Bank         String? @db.Text
+  Internal_Notes           String? @db.Text
+  Auto_Email_Invoice       Int?    @default(0)
+  Premium_Membership       Int?    @default(0)
+  Loyalty_Enabled          Int?    @default(0)
+  Loyalty_Point            Float?  @default(0)
+  Available_Loyalty_Credit Float?  @default(0)
+  Earned_Loyalty           Float?  @default(0)
+  Redeemed_Loyalty         Float?  @default(0)
+  Store_Credit_Enabled     Int?    @default(0)
+  Store_Credit_Amount      Float?  @default(0)
+  Account_Balance          Float?  @default(0)
+  Last_Visit               String? @default("1999-01-01") @db.VarChar(250)
+  Total_Orders             Int?    @default(0)
+  Total_Spent              Float?  @default(0)
+  Account_Limit            Float?  @default(0)
+  Ref_Emp_ID               String? @db.Text
+  Ref_Emp_Name             String? @db.Text
+  VehicleNo                String? @default("") @db.VarChar(100)
+}
+
+model customer_account {
+  Acc_Transaction_ID Int     @id @default(autoincrement())
+  Date               String? @default("1999-01-01") @db.VarChar(250)
+  Time               String? @default("00:00:00") @db.VarChar(250)
+  Action             String? @db.Text
+  Details            String? @db.Text
+  Details_ID         String? @db.Text
+  Amount             Float?  @default(0)
+  Cust_ID            Int?    @default(0)
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model customer_groups {
+  Group_Name  String? @db.Text
+  Description String? @db.Text
+
+  @@ignore
+}
+
+model customer_loyalty {
+  Loyalty_ID Int     @id @default(autoincrement())
+  Date       String? @default("1999-01-01") @db.VarChar(250)
+  Time       String? @default("00:00:00") @db.VarChar(250)
+  Action     String? @db.Text
+  Details    String? @db.Text
+  Details_ID String? @db.Text
+  Amount     Float?  @default(0)
+  Cust_ID    Int?    @default(0)
+}
+
+model customer_store_credit {
+  Store_Credit_ID Int     @id @default(autoincrement())
+  Date            String? @default("1999-01-01") @db.VarChar(250)
+  Time            String? @default("00:00:00") @db.VarChar(250)
+  Action          String? @db.Text
+  Details         String? @db.Text
+  Details_ID      String? @db.Text
+  Amount          Float?  @default(0)
+  Cust_ID         Int?    @default(0)
+}
+
+model delivery_advice {
+  Delivery_IntID    Int     @id @default(autoincrement())
+  Delivery_CustomID String? @db.Text
+  Date              String? @db.Text
+  Time              String? @db.Text
+  Cust_ID           Int?
+  Cust_Name         String? @db.Text
+  Cust_Phone        String? @db.Text
+  NetTotal          Float?
+  EmpID             String? @db.Text
+  InvoiceIntID      Int?
+  InvoiceID         String? @db.Text
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model delivery_advice_items {
+  Delivery_IntID    Int?
+  Delivery_CustomID String? @db.Text
+  ItemIntID         Int?
+  ItemID            String? @db.Text
+  ItemName          String? @db.Text
+  ItemEngName       String? @db.Text
+  ItemSinName       String? @db.Text
+  CostPrice         Float?
+  SalePrice         Float?
+  LineTotal         Float?
+  InvQty            Float?
+  IssuedQty         Float?
+  IssuingQty        Float?
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model department {
+  Dept_Name   String? @db.Text
+  Description String? @db.Text
+
+  @@ignore
+}
+
+model emailconfigurelist {
+  confID                 Int     @id @default(autoincrement())
+  senderEmail            String? @db.Text
+  SmtpAddress            String? @db.Text
+  SmtpPort               String? @db.Text
+  Usrname                String? @db.Text
+  Pwd                    String? @db.Text
+  AttachmentTempLocation String? @db.Text
+}
+
+model employee {
+  EmpID_auto        Int     @id @default(autoincrement())
+  EmpID             String? @db.Text
+  AutoGenerate      Int?    @default(1)
+  Title             String? @db.Text
+  Fname             String? @db.Text
+  Gender            String? @db.Text
+  NicNo             String? @db.Text
+  Phone1            String? @db.Text
+  Phone2            String? @db.Text
+  Email             String? @db.Text
+  CurrentAddress1   String? @db.Text
+  CurrentAddress2   String? @db.Text
+  CurrentAddress3   String? @db.Text
+  CurrentState      String? @db.Text
+  CurrentPcode      Int?    @default(0)
+  MaritalStatus     String? @db.Text
+  Dob               String? @db.Text
+  HomeAddress1      String? @db.Text
+  HomeAddress2      String? @db.Text
+  HomeAddress3      String? @db.Text
+  HomeState         String? @db.Text
+  HomePcode         Int?    @default(0)
+  Department        String? @db.Text
+  JobPosition       String? @db.Text
+  EmploymentStatus  String? @db.Text
+  HiringDate        String? @default("1999-01-01") @db.VarChar(250)
+  SupervisorName    String? @db.Text
+  TaxFileNo         String? @db.Text
+  Salary            Float?  @default(0)
+  Qualification     String? @db.Text
+  Additional        String? @db.Text
+  isCreateLogin     Int?    @default(0)
+  EmergencyName     String? @db.Text
+  EmergencyRelation String? @db.Text
+  EmergencyPhone1   String? @db.Text
+  EmergencyPhone2   String? @db.Text
+}
+
+model errors {
+  Error_ID Int     @id @default(autoincrement())
+  Date     String? @default("1999-01-01") @db.VarChar(250)
+  Time     String? @default("00:00:00") @db.VarChar(250)
+  Client   String? @db.Text
+  Error    String? @db.Text
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model events {
+  Type        String? @db.Text
+  Event       String? @db.Text
+  Description String? @db.Text
+  Date        String? @default("1999-01-01") @db.VarChar(250)
+  Time        String? @default("00:00:00") @db.VarChar(250)
+  User        String? @db.Text
+  Section     String? @db.Text
+  PcName      String? @db.Text
+  CustomKey   String? @db.Text
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model expenses {
+  SectionName   String? @db.Text
+  SectionID     String? @db.Text
+  ExpenseMode   String? @db.Text
+  RowNo         Int?
+  ExpenseChkbox Int?
+  ExpenseName   String? @db.Text
+  ExpenseAmount Float?
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model generated_id {
+  Section String? @db.Text
+  Pc_Name String? @db.Text
+  Gen_ID  String? @db.Text
+
+  @@ignore
+}
+
+model grn {
+  GRN_ID                  Int     @id @default(autoincrement())
+  GRN_CustomID            String? @db.Text
+  Po_ID                   String? @default("0") @db.VarChar(250)
+  Status                  String? @db.Text
+  Date                    String? @default("1999-01-01") @db.VarChar(250)
+  Time                    String? @default("00:00:00") @db.VarChar(250)
+  Supp_ID                 Int?    @default(-1)
+  Supp_Name               String? @db.Text
+  Supp_Phone              String? @db.Text
+  Supp_Address1           String? @db.Text
+  Supp_Address2           String? @db.Text
+  Supp_Address3           String? @db.Text
+  Supp_Company            String? @db.Text
+  Supp_Email              String? @db.Text
+  Supp_Ref_No             String? @db.Text
+  Remark                  String? @db.Text
+  Note                    String? @db.Text
+  SubTotal                Float?  @default(0)
+  ExtraDiscount           Float?  @default(0)
+  ExtraDiscountPercentage Float?  @default(0)
+  ShippingPercentage      Float?  @default(0)
+  ShippingCost            Float?  @default(0)
+  NetTotal                Float?  @default(0)
+  PaidAmount              Float?  @default(0)
+  ChangeAmount            Float?  @default(0)
+  DueAmount               Float?  @default(0)
+  EmpID                   String? @default("-1") @db.VarChar(250)
+  Status_Pay              String? @db.Text
+  ExpenseMode             String? @db.Text
+  ExpenseList             String? @db.Text
+  WarehouseIntID          Int?    @default(0)
+  WarehouseCustomID       String? @db.Text
+  WarehouseName           String? @db.Text
+  BranchName              String? @db.Text
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model grn_items {
+  ListOrder          Int?    @default(0)
+  GRN_ID             Int?    @default(0)
+  GRN_CustomID       String? @db.Text
+  PO_ID              String? @default("0") @db.VarChar(250)
+  Item_ID            String? @default("0") @db.VarChar(250)
+  Item_Name          String? @db.Text
+  CostPrice          Float?  @default(0)
+  Qty                Float?  @default(0)
+  Price              Float?  @default(0)
+  LineTotal          Float?  @default(0)
+  SA_ID              String? @db.Text
+  Stock_ID           Int?    @default(0)
+  Discount           Float?  @default(0)
+  Charges            Float?  @default(0)
+  NewCostPrice       Float?  @default(0)
+  Warranty_Period    String? @db.Text
+  Serial_Number      String? @db.Text
+  Enable_StockUpdate Int?    @default(1)
+  QtyForStock        Float?  @default(0)
+
+  @@ignore
+}
+
+model invoice {
+  Inv_ID              Int     @id @default(autoincrement())
+  Custom_Inv_ID       String? @db.Text
+  Date                String? @default("1999-01-01") @db.VarChar(250)
+  Time                String? @default("00:00:00") @db.VarChar(250)
+  Status              String? @db.Text
+  Payment_Method      String? @db.Text
+  Discount            Float?  @default(0)
+  DisPercentage       Float?  @default(0)
+  Total               Float?  @default(0)
+  Paid                Float?  @default(0)
+  Due_Amount          Float?  @default(0)
+  Balance             Float?  @default(0)
+  Advance_Amount      Float?  @default(0)
+  TotalUnitPrice      Float?  @default(0)
+  TotalUnitDiscount   Float?  @default(0)
+  Remark              String? @db.Text
+  Note                String? @db.Text
+  Manual_No           String? @db.Text
+  Cust_Group_Name     String? @db.Text
+  Cus_ID              Int?    @default(-1)
+  Cust_Name           String? @db.Text
+  Cust_Phone          String? @db.Text
+  Cust_Address1       String? @db.Text
+  Cust_Address2       String? @db.Text
+  Cust_Address3       String? @db.Text
+  Cust_Email          String? @db.Text
+  ExtraTaxValue       Float?  @default(0)
+  ExtraTaxPercentage  Float?  @default(0)
+  TotalTaxAmount      Float?  @default(0)
+  TotalCostPrice      Float?  @default(0)
+  SubTotal            Float?  @default(0)
+  EmpID               String? @default("-1") @db.VarChar(250)
+  PreOrder            Int?    @default(0)
+  DeliveryStatus      String? @db.Text
+  SalesmenCode        String? @db.Text
+  InvoiceType         String? @db.Text
+  PreOrder_DeliStatus String? @db.Text
+  Ref_Emp_ID          String? @db.Text
+  Ref_Emp_Name        String? @db.Text
+  Ref_Emp_Status      String? @db.Text
+  Ref_Emp_Phone       String? @db.Text
+  Total_WithCardFee   Float?  @default(0)
+  CardFeeType         String? @default("") @db.VarChar(140)
+  TotalCardFee        Float?  @default(0)
+  JobID               String? @default("") @db.VarChar(250)
+  JobName             String? @default("") @db.VarChar(250)
+  JobComplain         String? @default("") @db.VarChar(250)
+  AddiLine01          String? @default("") @db.VarChar(250)
+  AddiLine02          String? @default("") @db.VarChar(250)
+  VehicleNo           String? @default("") @db.VarChar(250)
+  VehicleType         String? @default("") @db.VarChar(250)
+  BillTypeName        String? @default("") @db.VarChar(250)
+  Cust_VehicleNo      String? @default("") @db.VarChar(100)
+  ReturnIDs           String? @default("") @db.VarChar(240)
+  ReturnAmount        Float?  @default(0)
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model invoice_items {
+  List_Order             Int?    @default(0)
+  Inv_ID                 Int?    @default(0)
+  Custom_Inv_ID          String? @db.Text
+  SKU                    String? @db.Text
+  Item_ID                String? @default("0") @db.VarChar(250)
+  Item_Name              String? @db.Text
+  Eng_Name               String? @db.Text
+  Sin_Name               String? @db.Text
+  Price_On_Product       Float?  @default(0)
+  Qty                    Float?  @default(0)
+  Price                  Float?  @default(0)
+  Discount               Float?  @default(0)
+  DisPercentage          Float?  @default(0)
+  Line_Total             Float?  @default(0)
+  LineTotWithoutDiscount Float?  @default(0)
+  Total_CostPrice        Float?  @default(0)
+  TaxAmoutOfOneItem      Float?  @default(0)
+  CostPriceOfOneItem     Float?  @default(0)
+  OrderStatus            String? @db.Text
+  SalesPriceOriginal     Float?  @default(0)
+  StockID                Float?  @default(0)
+  ItemCategory           String? @db.Text
+  IssuedQty              Float?  @default(0)
+  Warranty_Period        String? @db.Text
+  Serial_Number          String? @db.Text
+  ItemStockType          String? @default("Inventory") @db.VarChar(100)
+  IssuedStatus           String? @db.Text
+  Original_ItemName      String? @db.Text
+  OurPrice               Float?  @default(0)
+
+  @@ignore
+}
+
+model invoice_rec_items {
+  ir_id                 Int     @id @default(autoincrement())
+  Invoice_Id            Int?    @default(0)
+  Custom_Inv_ID         String? @db.Text
+  SKU                   String? @db.Text
+  Item_Id               String? @db.Text
+  Item_Name             String? @db.Text
+  GRN_Id                String? @db.Text
+  Qty                   Float?  @default(0)
+  CostPrice             Float?  @default(0)
+  SalesPriceWithoutDisc Float?  @default(0)
+  Type                  String? @db.Text
+  SalesPriceWithDisc    Float?  @default(0)
+}
+
+model items {
+  Item_ID_Auto            Int     @id @default(autoincrement())
+  Item_ID                 String? @default("0") @db.VarChar(250)
+  Barcode                 String? @db.Text
+  Product_Type            String? @db.Text
+  Base_Product_Name       String? @db.Text
+  Item_Name               String? @db.Text
+  Eng_Name                String? @db.Text
+  Sin_Name                String? @db.Text
+  Cat_Name                String? @default("0") @db.VarChar(250)
+  Variant_Count           Int?    @default(0)
+  Stock_Type              String? @db.Text
+  Cost                    Float?  @default(0)
+  Markup_Type             String? @db.Text
+  Markup_Percentage_Value Float?  @default(0)
+  Markup_Value            Float?  @default(0)
+  Sales_Price             Float?  @default(0)
+  Discount                String? @default("0") @db.VarChar(150)
+  Reorder_Level           Float?  @default(0)
+  Unit                    String? @db.Text
+  Size                    String? @default("0") @db.VarChar(250)
+  Color                   String? @db.Text
+  Manufacturer            String? @db.Text
+  Model                   String? @db.Text
+  Warehouse               String? @db.Text
+  Remark                  String  @db.Text
+  Sales_Price2            Float?  @default(0)
+  Print_KOT               Int?    @default(0)
+  Tax                     String? @db.Text
+  Tax_Amount              Float?  @default(0)
+  Reorder_Qty             Float?  @default(0)
+  Brand                   String? @db.Text
+  ItemActiveMode          Int?    @default(1)
+  ItemIdAutoMode          Int?    @default(1)
+  BarcodeAutoMode         Int?    @default(1)
+  Warranty_Available      Int?    @default(0)
+  Warranty_Period         String? @db.Text
+  Serial_Number_Required  Int?    @default(0)
+  Variant_Id              Int?    @default(0)
+  VariantTypeList         String? @default("") @db.VarChar(250)
+  DiscountWholeSale       String? @default("0") @db.VarChar(200)
+  LoyaltyPoint            Float?  @default(0)
+
+  @@index([Item_ID])
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model items_supp_list {
+  Item_ID   String? @db.Text
+  Supp_Name String? @db.Text
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model items_warehouse_list {
+  Item_AutoID        Int?    @default(0)
+  Item_ID            String? @db.Text
+  Warehouse_CustomID String? @db.Text
+  Warehouse_Name     String? @db.Text
+  Branch_ID          String? @db.Text
+
+  @@ignore
+}
+
+model job_card {
+  Job_AutoID                 Int     @id @default(autoincrement())
+  Job_CustomID               String? @db.Text
+  JobName                    String? @db.Text
+  JobComplain                String? @db.Text
+  CreateDate                 String? @default("1999-01-01") @db.VarChar(250)
+  CreateTime                 String? @default("00:00:00") @db.VarChar(250)
+  Status_Invoiced            String? @db.Text
+  Status_Completed           String? @db.Text
+  Invoice_ID                 String? @db.Text
+  Invoice_Date               String? @default("1999-01-01") @db.VarChar(250)
+  Invoice_Time               String? @default("00:00:00") @db.VarChar(250)
+  Current_Status             String? @db.Text
+  Scheduled_Date             String? @default("1999-01-01") @db.VarChar(250)
+  Scheduled_Time             String? @default("00:00:00") @db.VarChar(250)
+  Started_Date               String? @default("1999-01-01") @db.VarChar(250)
+  Started_Time               String? @default("00:00:00") @db.VarChar(250)
+  Due_Date                   String? @default("1999-01-01") @db.VarChar(250)
+  Due_Time                   String? @default("00:00:00") @db.VarChar(250)
+  Completed_Date             String? @default("1999-01-01") @db.VarChar(250)
+  Completed_Time             String? @default("00:00:00") @db.VarChar(250)
+  Brand                      String? @db.Text
+  Model                      String? @db.Text
+  Serial_No                  String? @db.Text
+  Note                       String? @db.Text
+  Technician_ID              String? @db.Text
+  Technician_Name            String? @db.Text
+  Cust_Int_ID                Int?    @default(-1)
+  Cust_Custom_ID             String? @db.Text
+  Cust_Name                  String? @db.Text
+  Cust_Address1              String? @db.Text
+  Cust_Address2              String? @db.Text
+  Cust_Address3              String? @db.Text
+  Cust_Phone                 String? @db.Text
+  Cust_Email                 String? @db.Text
+  Cust_Group                 String? @db.Text
+  Additional_Remark          String? @db.Text
+  Additional_RefNo           String? @db.Text
+  Emp_ID                     String? @db.Text
+  Sub_Total                  Float?  @default(0)
+  Extra_Tax                  Float?  @default(0)
+  Extra_Tax_Percentage       Float?  @default(0)
+  Extra_Discount             Float?  @default(0)
+  Extra_Disc_Percentage      Float?  @default(0)
+  Advanced_Amount            Float?  @default(0)
+  Advanced_Method            String? @db.Text
+  Net_Total                  Float?  @default(0)
+  Net_Total_Without_Advanced Float?  @default(0)
+  Paid_Amount                Float?  @default(0)
+  Due_Amount                 Float?  @default(0)
+  Change_Amount              Float?  @default(0)
+  Payment_Methods            String? @db.Text
+  WarrantyStatus             String? @db.Text
+  WarrantyBillNo             String? @db.Text
+  WarrantyBillDate           String? @db.Text
+  Vehicle_No                 String? @default("") @db.VarChar(250)
+  ServiceType                String? @default("") @db.VarChar(250)
+  CurrentMileage             String? @default("") @db.VarChar(250)
+  AddKm                      String? @default("") @db.VarChar(250)
+  NewMileage                 String? @default("") @db.VarChar(250)
+  ClaimAvailable             String? @default("") @db.VarChar(250)
+  Year                       String? @default("") @db.VarChar(250)
+  Color                      String? @default("") @db.VarChar(250)
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model job_card_accessories {
+  Job_Auto_ID   Int?    @default(-1)
+  Job_Custom_ID String? @db.Text
+  List_Order    Int?    @default(1)
+  Item          String? @db.Text
+  Qty           Float?  @default(0)
+  Status        String? @db.Text
+  Note          String? @db.Text
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model job_card_labor {
+  Job_Auto_ID     Int?    @default(-1)
+  Job_Custom_ID   String? @db.Text
+  Labor_Auto_ID   Int?    @default(-1)
+  Labor_Custom_ID String? @db.Text
+  Labor_Name      String? @db.Text
+  Assign          String? @db.Text
+  Status          String? @db.Text
+  Note            String? @db.Text
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model job_card_maintenance {
+  Job_Auto_ID            Int?    @default(-1)
+  Job_Custom_ID          String? @db.Text
+  List_Order             Int?    @default(1)
+  ItemName               String? @db.Text
+  Qty                    Float?  @default(0)
+  CostPrice              Float?  @default(0)
+  SalesPrice             Float?  @default(0)
+  SalesPriceOriginal     Float?  @default(0)
+  LineTotal              Float?  @default(0)
+  Warranty               String? @db.Text
+  Status                 String? @db.Text
+  Note                   String? @db.Text
+  Discount               Float?  @default(0)
+  DisPercentage          Float?  @default(0)
+  LineTotWithoutDiscount Float?  @default(0)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model job_card_parts {
+  List_Order             Int?    @default(0)
+  Job_Auto_ID            Int?    @default(0)
+  Job_Custom_ID          String? @db.Text
+  SKU                    String? @db.Text
+  Item_ID                String? @default("0") @db.VarChar(250)
+  Item_Name              String? @db.Text
+  Eng_Name               String? @db.Text
+  Sin_Name               String? @db.Text
+  Price_On_Product       Float?  @default(0)
+  Qty                    Float?  @default(0)
+  Price                  Float?  @default(0)
+  Discount               Float?  @default(0)
+  DisPercentage          Float?  @default(0)
+  Line_Total             Float?  @default(0)
+  LineTotWithoutDiscount Float?  @default(0)
+  Total_CostPrice        Float?  @default(0)
+  TaxAmoutOfOneItem      Float?  @default(0)
+  CostPriceOfOneItem     Float?  @default(0)
+  OrderStatus            String? @db.Text
+  SalesPriceOriginal     Float?  @default(0)
+  StockID                Float?  @default(0)
+  ItemCategory           String? @db.Text
+  IssuedQty              Float?  @default(0)
+  Warranty_Period        String? @db.Text
+  Serial_Number          String? @db.Text
+  ItemStockType          String? @default("Inventory") @db.VarChar(100)
+
+  @@ignore
+}
+
+model job_details_optical {
+  Job_AutoID                 Int     @id @default(autoincrement())
+  Job_CustomID               String? @db.Text
+  Job_Name                   String? @db.Text
+  Job_SubName                String? @db.Text
+  CreateDate                 String? @default("1999-01-01") @db.VarChar(250)
+  CreateTime                 String? @default("00:00:00") @db.VarChar(250)
+  Current_Status             String? @db.Text
+  OrderLense_Date            String? @default("1999-01-01") @db.VarChar(250)
+  OrderLense_Time            String? @default("00:00:00") @db.VarChar(250)
+  Fitting_Date               String? @default("1999-01-01") @db.VarChar(250)
+  Fitting_Time               String? @default("00:00:00") @db.VarChar(250)
+  Deliverd_Date              String? @default("1999-01-01") @db.VarChar(250)
+  Deliverd_Time              String? @default("00:00:00") @db.VarChar(250)
+  Completed_Date             String? @default("1999-01-01") @db.VarChar(250)
+  Completed_Time             String? @default("00:00:00") @db.VarChar(250)
+  Cust_Age                   String? @db.Text
+  Claim_Available            String? @db.Text
+  Office_Note                String? @db.Text
+  Cust_Note                  String? @db.Text
+  Technician_ID              String? @db.Text
+  Technician_Name            String? @db.Text
+  Status_Invoiced            String? @db.Text
+  Status_Completed           String? @db.Text
+  Invoice_ID                 String? @db.Text
+  Invoice_Date               String? @default("1999-01-01") @db.VarChar(250)
+  Invoice_Time               String? @default("00:00:00") @db.VarChar(250)
+  Cust_Int_ID                Int?    @default(-1)
+  Cust_Custom_ID             String? @db.Text
+  Cust_Name                  String? @db.Text
+  Cust_Address1              String? @db.Text
+  Cust_Address2              String? @db.Text
+  Cust_Address3              String? @db.Text
+  Cust_Phone                 String? @db.Text
+  Cust_Email                 String? @db.Text
+  Cust_Group                 String? @db.Text
+  Emp_ID                     String? @db.Text
+  Sub_Total                  Float?  @default(0)
+  Extra_Tax                  Float?  @default(0)
+  Extra_Tax_Percentage       Float?  @default(0)
+  Extra_Discount             Float?  @default(0)
+  Extra_Disc_Percentage      Float?  @default(0)
+  Advanced_Amount            Float?  @default(0)
+  Advanced_Method            String? @db.Text
+  Net_Total                  Float?  @default(0)
+  Net_Total_Without_Advanced Float?  @default(0)
+  Paid_Amount                Float?  @default(0)
+  Due_Amount                 Float?  @default(0)
+  Change_Amount              Float?  @default(0)
+  Payment_Methods            String? @db.Text
+  Lens_Model                 String? @db.Text
+  Lens_Type                  String? @db.Text
+  Frame_Type                 String? @db.Text
+  L_SPH_Mode                 String? @db.Text
+  L_SPH_Value                String? @db.Text
+  L_CYL_Mode                 String? @db.Text
+  L_CYL_Value                String? @db.Text
+  L_Axis                     String? @db.Text
+  L_Add                      String? @db.Text
+  R_SPH_Mode                 String? @db.Text
+  R_SPH_Value                String? @db.Text
+  R_CYL_Mode                 String? @db.Text
+  R_CYL_Value                String? @db.Text
+  R_Axis                     String? @db.Text
+  R_Add                      String? @db.Text
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model job_queue {
+  Job_AutoID     Int?
+  Job_CustomID   String? @db.Text
+  Job_CreateDate String? @db.Text
+  JobType        String? @db.Text
+  VehicleNo      String? @db.Text
+  QueueNo        Int?
+
+  @@ignore
+}
+
+model kot {
+  KotAutoID   Int     @id @default(autoincrement())
+  Kot_No      Int?    @default(0)
+  InvAutoID   Int?    @default(0)
+  InvCustomID String? @default("") @db.VarChar(200)
+  InvDate     String? @default("") @db.VarChar(200)
+}
+
+model login {
+  User_ID      String  @id @db.VarChar(250)
+  Password     String? @db.Text
+  Name         String? @db.Text
+  Status       String? @db.Text
+  AccType      String? @db.Text
+  Display_Name String? @db.Text
+  createDate   String? @default("1999-01-01") @db.VarChar(250)
+  EmpID        Int?    @default(-1)
+  EmpCustomID  String? @db.Text
+}
+
+model message_settings {
+  Setting_ID         Int     @id @default(autoincrement())
+  Setting_Name       String? @db.Text
+  Status             String? @db.Text
+  ServiceProviderWeb String? @db.Text
+  Endpoint_Url       String? @db.Text
+  ParamName1         String? @db.Text
+  ParamValue1        String? @db.Text
+  ParamName2         String? @db.Text
+  ParamValue2        String? @db.Text
+  ParamName3         String? @db.Text
+  ParamValue3        String? @db.Text
+  ParamName4         String? @db.Text
+  ParamValue4        String? @db.Text
+  ParamName5         String? @db.Text
+  ParamValue5        String? @db.Text
+  ParamName6         String? @db.Text
+  ParamValue6        String? @db.Text
+  ParamName7         String? @db.Text
+  ParamValue7        String? @db.Text
+  ParamName8         String? @db.Text
+  ParamValue8        String? @db.Text
+  FullParamText      String? @db.Text
+}
+
+model message_templates {
+  Template_ID      Int     @id @default(autoincrement())
+  Template_Name    String? @db.Text
+  Template_Status  String? @db.Text
+  Section          String? @db.Text
+  Section_Status   String? @db.Text
+  Message          String? @db.Text
+  Configuration_ID String? @db.Text
+  Date             String? @default("1999-01-01") @db.VarChar(250)
+  Time             String? @default("00:00:00") @db.VarChar(250)
+  UserID           String? @db.Text
+}
+
+model navigation_settings {
+  navigation_id Int    @id @default(autoincrement())
+  user_id       String @db.VarChar(250)
+  username      String @db.VarChar(250)
+  dashboard     Int?   @default(0)
+  purchase      Int?   @default(0)
+  stock         Int?   @default(0)
+  sales         Int?   @default(0)
+  stats         Int?   @default(0)
+  office        Int?   @default(0)
+  expand_status Int?   @default(0)
+  navigation    Int?   @default(0)
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model note {
+  Title  String? @db.Text
+  Note   String? @db.Text
+  UserID String? @db.Text
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model optional_extras {
+  main_product_auto_id String? @db.Text
+  sub_product_auto_id  String? @db.Text
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model p_return_items {
+  PO_R_ID             Int?    @default(0)
+  Po_R_CustomID       String? @db.Text
+  PO_ID               String? @db.Text
+  GRN_ID              String? @db.Text
+  Item_ID             String? @default("") @db.VarChar(250)
+  Item_Name           String? @db.Text
+  Qty                 Float?  @default(0)
+  Price               Float?  @default(0)
+  Discount_Percentage Float?  @default(0)
+  Discount_Value      Float?  @default(0)
+  CostPrice           Float?  @default(0)
+  SalesPrice          Float?  @default(0)
+  ReturnQty           Float?  @default(0)
+  GrnQty              Float?  @default(0)
+  Stock_ID            Int?    @default(0)
+  Warranty_Period     String? @db.Text
+  Serial_Number       String? @db.Text
+
+  @@ignore
+}
+
+model parksale {
+  Park_ID             Int     @id @default(autoincrement())
+  Park_Section        String? @db.Text
+  Park_Date           String? @default("1999-01-01") @db.VarChar(250)
+  Park_Time           String? @default("00:00:00") @db.VarChar(250)
+  Park_Note           String? @db.Text
+  Park_EmpID          String? @db.Text
+  Cus_ID              Int?    @default(-1)
+  Cust_CustomID       String? @db.Text
+  Cust_Name           String? @db.Text
+  Cust_Phone          String? @db.Text
+  Cust_Email          String? @db.Text
+  Status              String? @db.Text
+  SubTotal            Float?  @default(0)
+  Discount            Float?  @default(0)
+  DisPercentage       Float?  @default(0)
+  ExtraTaxValue       Float?  @default(0)
+  ExtraTaxPercentage  Int?    @default(0)
+  NetTotal            Float?  @default(0)
+  Paid                Float?  @default(0)
+  DueBalance          Float?  @default(0)
+  ChangeAmount        Float?  @default(0)
+  TotalUnitPrice      Float?  @default(0)
+  TotalUnitDiscount   Float?  @default(0)
+  InvoiceType         String? @db.Text
+  SalesmenCode        String? @db.Text
+  EmpID               String? @db.Text
+  PreOrder_DeliStatus String? @db.Text
+  Remark              String? @db.Text
+  Note                String? @db.Text
+  Manual_No           String? @db.Text
+  Ref_Emp_ID          String? @db.Text
+  Ref_Emp_Name        String? @db.Text
+  Ref_Emp_Phone       String? @db.Text
+  Ref_Emp_Status      String? @db.Text
+  UpdateMode          Int?    @default(0)
+  InvID_Update        String? @db.Text
+  Inv_Date            String? @db.Text
+  TotalItems          Int?    @default(0)
+  TotalQty            Float?  @default(0)
+  TblListIndex        Int?    @default(-1)
+  TableBtnName        String? @default("") @db.VarChar(250)
+  TableBtnIndex       Int?    @default(-1)
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model parksale_items {
+  List_Order             Int?    @default(0)
+  Park_ID                Int?    @default(1)
+  Item_ID                String? @db.Text
+  Item_Name              String? @db.Text
+  Qty                    Float?  @default(0)
+  SalesPrice             Float?  @default(0)
+  Discount               Float?  @default(0)
+  DisPercentage          Float?  @default(0)
+  Line_Total             Float?  @default(0)
+  LineTotWithoutDiscount Float?  @default(0)
+  Total_CostPrice        Float?  @default(0)
+  CostPriceOfOneItem     Float?  @default(0)
+  TaxAmoutOfOneItem      Float?  @default(0)
+  OrderStatus            String? @db.Text
+  SalesPriceOriginal     Float?  @default(0)
+  ItemCategory           String? @db.Text
+  IssuedQty              Float?  @default(0)
+  Warranty_Period        String? @db.Text
+  Serial_Number          String? @db.Text
+  Eng_Name               String? @db.Text
+  Sin_Name               String? @db.Text
+  Price_On_Product       Float?  @default(0)
+  ItemStockType          String? @default("Inventory") @db.VarChar(100)
+  RowStatus              String? @default("NEW") @db.VarChar(50)
+  KotAutoID              Int?    @default(0)
+
+  @@ignore
+}
+
+model payments {
+  Payment_ID       Int     @id @default(autoincrement())
+  Location         String? @db.Text
+  InvBill_No       String? @db.Text
+  Payment_Method   String? @db.Text
+  Bill_Total       Float?  @default(0)
+  Status           String? @default("CREDIT") @db.VarChar(250)
+  Paid_Amount      Float?  @default(0)
+  Change_Amount    Float?  @default(0)
+  Due_Amount       Float?  @default(0)
+  CashDrawerStatus Int?    @default(1)
+  Date             String? @default("1999-01-01") @db.VarChar(250)
+  Time             String? @default("00:00:00") @db.VarChar(250)
+  Terminal         String? @db.Text
+  Tax              String? @db.Text
+  Cust_ID          Int?    @default(-1)
+  BankName         String? @db.Text
+  CardCheqNumber   String? @db.Text
+  Note             String? @db.Text
+  CardType         String? @db.Text
+  CheqDate         String? @default("1999-01-01") @db.VarChar(250)
+  CardCharges      Float?  @default(0)
+}
+
+model payments_personal {
+  Payment_ID     Int     @id @default(autoincrement())
+  Location       String? @default("") @db.VarChar(150)
+  InvBill_No     String? @default("") @db.VarChar(150)
+  Payment_Method String? @default("") @db.VarChar(150)
+  Bill_Total     Float?  @default(0)
+  Status         String? @default("CREDIT") @db.VarChar(150)
+  Paid_Amount    Float?  @default(0)
+  Change_Amount  Float?  @default(0)
+  Due_Amount     Float?  @default(0)
+  Date           String? @default("1999-01-01") @db.VarChar(150)
+  Time           String? @default("00:00:00") @db.VarChar(150)
+  Terminal       String? @default("") @db.VarChar(150)
+  Cust_ID        Int?    @default(-1)
+  CheqDate       String? @default("1999-01-01") @db.VarChar(150)
+  BankName       String? @default("") @db.VarChar(150)
+  CardCheqNumber String? @default("") @db.VarChar(150)
+  CardType       String? @default("") @db.VarChar(150)
+  CardCharges    Float?  @default(0)
+  Note           String? @db.Text
+}
+
+model po {
+  Po_ID                  Int     @id @default(autoincrement())
+  Po_CustomID            String? @db.Text
+  Supp_ID                Int?    @default(-1)
+  Supp_Name              String? @db.Text
+  Supp_Phone             String? @db.Text
+  Supp_Address1          String? @db.Text
+  Supp_Address2          String? @db.Text
+  Supp_Address3          String? @db.Text
+  Supp_Company           String? @db.Text
+  Supp_Email             String? @db.Text
+  Date                   String? @default("1999-01-01") @db.VarChar(250)
+  Time                   String? @default("00:00:00") @db.VarChar(250)
+  Due_Date               String? @default("1999-01-01") @db.VarChar(250)
+  Status                 String? @db.Text
+  Shipping_Add1          String? @db.Text
+  Shipping_Add2          String? @db.Text
+  Shipping_Add3          String? @db.Text
+  V_Order_No             String? @db.Text
+  Payment_Method         String? @db.Text
+  SubTotal               Float?  @default(0)
+  Discount               Float?  @default(0)
+  DiscountPercentage     Float?  @default(0)
+  ShippingCost           Float?  @default(0)
+  ShippingCostPercentage Float?  @default(0)
+  GrandTotal             Float?  @default(0)
+  PaidAmount             Float?  @default(0)
+  DueAmount              Float?  @default(0)
+  ChangeAmount           Float?  @default(0)
+  Remark                 String? @db.Text
+  Note                   String? @db.Text
+  Supplier_RefNo         String? @db.Text
+  Item_Receive_Status    String? @db.Text
+  EmpID                  String? @default("-1") @db.VarChar(250)
+  ExpenseMode            String? @db.Text
+  ExpenseList            String? @db.Text
+  WarehouseIntID         Int?    @default(0)
+  WarehouseCustomID      String? @db.Text
+  WarehouseName          String? @db.Text
+  BranchName             String? @db.Text
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model po_items {
+  PO_ID                 Int?    @default(0)
+  Po_CustomID           String? @db.Text
+  List_Order            Int?    @default(1)
+  Item_ID               String? @default("0") @db.VarChar(250)
+  Item_Name             String? @db.Text
+  Qty                   Float?  @default(0)
+  CostPrice             Float?  @default(0)
+  Discount              Float?  @default(0)
+  Discount_Persentage   Float?  @default(0)
+  Sales_Price           Float?  @default(0)
+  Line_Total            Float?  @default(0)
+  CostPriceWithDiscount Float?  @default(0)
+  Received_Mark         Int?    @default(0)
+  Supp_Part_Number      String? @db.Text
+  Charges               Float?  @default(0)
+  NewCostPrice          Float?  @default(0)
+  Warranty_Period       String? @db.Text
+  Serial_Number         String? @db.Text
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model preorderitems {
+  List_Order         Int?    @default(0)
+  PreOrderID         String? @db.Text
+  InvoiceID          String? @db.Text
+  SKU                Int?    @default(0)
+  ItemID             String? @db.Text
+  ItemName           String? @db.Text
+  SalesPrice         Float?  @default(0)
+  Qty                Float?  @default(0)
+  Discount           Float?  @default(0)
+  DiscountPercentage Float?  @default(0)
+  LineTotal          Float?  @default(0)
+  TaxAmountOneItem   Float?  @default(0)
+  CostPriceOneItem   Float?  @default(0)
+  TotalCostPrice     Float?  @default(0)
+  Eng_Name           String? @db.Text
+  Sin_Name           String? @db.Text
+  EmpID              String? @db.Text
+  OriginalSalesPrice Float?  @default(0)
+
+  @@ignore
+}
+
+model primarykey_settings {
+  PK_ID     Int     @id @default(autoincrement())
+  Section   String? @db.Text
+  Prefix    String? @db.Text
+  Postfix   Int?    @default(100)
+  KeyLength Int?    @default(5)
+  LatestID  Int?    @default(0)
+}
+
+model printerreports {
+  ReportID             Int     @id @default(autoincrement())
+  DocumentType         String? @db.Text
+  TemplateName         String? @db.Text
+  TemplatePrinterModel String? @db.Text
+  TemplateLocation     String? @db.Text
+  TemplateID           String? @db.Text
+  EditTemplate         Int?    @default(0)
+  BusinessName         String? @db.Text
+  Description          String? @db.Text
+  Address1             String? @db.Text
+  Address2             String? @db.Text
+  Address3             String? @db.Text
+  PhoneDirect          String? @db.Text
+  PhoneFax             String? @db.Text
+  Web                  String? @db.Text
+  Email                String? @db.Text
+  Footer1              String? @db.Text
+  Footer2              String? @db.Text
+  DeliveryMethod       String? @db.Text
+  PrinterName          String? @db.Text
+  FileType             String? @db.Text
+  FileExtension        String? @db.Text
+  SaveLocation         String? @db.Text
+  From                 String? @db.Text
+  To                   String? @db.Text
+  Cc                   String? @db.Text
+  Bcc                  String? @db.Text
+  Subject              String? @db.Text
+  Body                 String? @db.Text
+  SmtpAddress          String? @db.Text
+  SmtpPort             String? @db.Text
+  Usrname              String? @db.Text
+  Pwd                  String? @db.Text
+  TempLocation         String? @db.Text
+  DateTime             String? @db.Text
+  ImagePath            String? @db.Text
+  PcName               String? @db.Text
+  DisplayName          String? @default("") @db.VarChar(250)
+}
+
+model printertemplatelist {
+  listID          Int     @id @default(autoincrement())
+  DocumentType    String? @db.Text
+  TemplateName    String? @db.Text
+  PrinterType     String? @db.Text
+  DocLocation     String? @db.Text
+  PrevImgLocation String? @db.Text
+}
+
+model product_variant {
+  Variant_Id   Int     @id @default(autoincrement())
+  V1_Available Int?    @default(0)
+  V1_Type      String? @db.Text
+  V1_Text      String? @db.Text
+  V2_Available Int?    @default(0)
+  V2_Type      String? @db.Text
+  V2_Text      String? @db.Text
+  V3_Available Int?    @default(0)
+  V3_Type      String? @db.Text
+  V3_Text      String? @db.Text
+  V4_Available Int?    @default(0)
+  V4_Type      String? @db.Text
+  V4_Text      String? @db.Text
+}
+
+model products_stock_management {
+  StockM_ID            Int     @id @default(autoincrement())
+  Product_AutoID       Int?    @default(0)
+  Product_ID           String? @db.Text
+  Product_Name         String? @db.Text
+  Barcode              String? @db.Text
+  StockType            String? @default("Inventory") @db.VarChar(150)
+  CostPrice            Float?  @default(0)
+  SalesPrice           Float?  @default(0)
+  Available_Qty        Float?  @default(0)
+  GRN_Qty              Float?  @default(0)
+  GRN_Return_Qty       Float?  @default(0)
+  Sales_Qty            Float?  @default(0)
+  Sales_Return_Qty     Float?  @default(0)
+  Stock_Adjustment_Qty Float?  @default(0)
+  RegistrationQty      Float?  @default(0)
+  Category             String? @db.Text
+  Warehouse_ID         Int?    @default(1)
+  Warehouse_CustomID   String? @default("BR/DEF/001-WH/DEF/001") @db.VarChar(250)
+  Branch_CustomID      String? @default("BR/DEF/001") @db.VarChar(250)
+  StartSaleInvProcess  Int?    @default(1)
+}
+
+model products_stockflow {
+  Flow_ID    Int     @id @default(autoincrement())
+  Stock_ID   Int?    @default(0)
+  GRN_ID     String? @db.Text
+  Product_ID String? @db.Text
+  SalesPrice Float?  @default(0)
+}
+
+model purchase_return {
+  PO_R_ID             Int     @id @default(autoincrement())
+  GRN_Ret_CustomID    String? @db.Text
+  Date                String? @default("1999-01-01") @db.VarChar(250)
+  Time                String? @default("00:00:00") @db.VarChar(250)
+  GRN_ID              String? @db.Text
+  Po_ID               String? @default("0") @db.VarChar(250)
+  Status              String? @db.Text
+  PaymentStatus       String? @db.Text
+  Supp_ID             Int?    @default(-1)
+  Supp_Name           String? @db.Text
+  Supp_Phone          String? @db.Text
+  Supp_Address1       String? @db.Text
+  Supp_Address2       String? @db.Text
+  Supp_Address3       String? @db.Text
+  Supp_Email          String? @db.Text
+  Supp_Company        String? @db.Text
+  Remark              String  @db.Text
+  Note                String? @db.Text
+  Supp_Ref_No         String? @db.Text
+  TotalCostPrice      Float?  @default(0)
+  TotalSalesPrice     Float?  @default(0)
+  Sub_Total           Float?  @default(0)
+  ExtraCost           Float?  @default(0)
+  ExtraCostPercentage Float?  @default(0)
+  EmpID               String? @default("-1") @db.VarChar(250)
+  TypeName            String? @db.Text
+  TypeID              String? @db.Text
+  ReasonForReturn     String? @db.Text
+}
+
+model quotation {
+  Qut_ID            Int     @id @default(autoincrement())
+  Custom_Qut_ID     String? @db.Text
+  Date              String? @default("1999-01-01") @db.VarChar(250)
+  Time              String? @default("00:00:00") @db.VarChar(250)
+  Status            String? @db.Text
+  Cust_Group        String? @db.Text
+  Cust_ID           Int?    @default(0)
+  Cust_Name         String? @db.Text
+  Cust_Phone        String? @db.Text
+  Cust_NIC          String? @db.Text
+  Cust_Address1     String? @db.Text
+  Cust_Address2     String? @db.Text
+  Cust_Address3     String? @db.Text
+  Cust_Email        String? @db.Text
+  Valid_Days        String? @db.Text
+  SubTotal          Float?  @default(0)
+  Discount          Float?  @default(0)
+  Tax               Float?  @default(0)
+  Total             Float?  @default(0)
+  Remark            String? @db.Text
+  TotalUnitPrice    Float?  @default(0)
+  TotalUnitDiscount Float?  @default(0)
+  Note              String? @db.Text
+  CustomRef         String? @db.Text
+  DiscPresentageVal Float?  @default(0)
+  TaxPercentage     Float?  @default(0)
+  EmpID             String? @default("-1") @db.VarChar(250)
+  Ref_Emp_ID        String? @db.Text
+  Ref_Emp_Name      String? @db.Text
+  Ref_Emp_Phone     String? @db.Text
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model quotation_items {
+  List_Order             Int?    @default(0)
+  Qut_ID                 Int?    @default(0)
+  Custom_Qut_ID          String? @db.Text
+  Item_ID                String? @default("0") @db.VarChar(250)
+  Item_Name              String? @db.Text
+  Qty                    Float?  @default(0)
+  Price                  Float?  @default(0)
+  Discount               Float?  @default(0)
+  DisPercentage          Float?  @default(0)
+  Line_Total             Float?  @default(0)
+  LineTotWithoutDiscount Float?  @default(0)
+  ItemTax                Float?  @default(0)
+  EngName                String? @db.Text
+  SinName                String? @db.Text
+  OriginalSalesPrice     Float?  @default(0)
+  ItemStockType          String? @default("Inventory") @db.VarChar(100)
+
+  @@ignore
+}
+
+model reference_list {
+  Ref_ID      Int     @id @default(autoincrement())
+  Ref_Type    String? @db.Text
+  Ref_Name    String? @db.Text
+  Description String? @db.Text
+}
+
+model restaurant_tables {
+  TableIntID    Int     @id @default(autoincrement())
+  TableName     String? @db.Text
+  NoOfSeats     Int?
+  TableCategory String? @db.Text
+  TableStatus   String? @db.Text
+}
+
+model return_restock_items {
+  RR_ID              Int     @id @default(autoincrement())
+  Return_ID          String? @db.Text
+  Item_ID            String? @db.Text
+  Item_Name          String? @db.Text
+  SalesPriceWithDisc Float?  @default(0)
+  CostPrice          Float?  @default(0)
+  ReturnQty          Float?  @default(0)
+  Stock_GRN_ID       Int?    @default(0)
+  OriginalSalesPrice Float?  @default(0)
+}
+
+model sales_return {
+  Sales_R_ID          Int     @id @default(autoincrement())
+  Custom_ReturnID     String? @db.Text
+  Inv_Bill_ID         String? @default("0") @db.VarChar(250)
+  InvBillType         String? @db.Text
+  Cus_Group_Name      String? @db.Text
+  Cust_ID             Int?    @default(-1)
+  Cust_Name           String? @db.Text
+  Cust_Phone          String? @db.Text
+  Cust_Email          String? @db.Text
+  Cust_Address1       String? @db.Text
+  Cust_Address2       String? @db.Text
+  Cust_Address3       String? @db.Text
+  Remark              String? @db.Text
+  Status              String? @db.Text
+  Date                String? @default("1999-01-01") @db.VarChar(250)
+  Time                String? @default("00:00:00") @db.VarChar(250)
+  SubTotal            Float?  @default(0)
+  Deduction           Float?  @default(0)
+  Total               Float?  @default(0)
+  Return_Total        Float?  @default(0)
+  Refunded            Float?  @default(0)
+  Credit              Float?  @default(0)
+  Reason              String? @db.Text
+  Restock_Status      String? @db.Text
+  Note                String? @db.Text
+  TotalCostPrice      Float?  @default(0)
+  TotalTaxAmount      Float?  @default(0)
+  EmpID               String? @default("-1") @db.VarChar(250)
+  DueAmount           Float?  @default(0)
+  ChangeAmount        Float?  @default(0)
+  DeductionPercentage Float?  @default(0)
+  InvDisTaxAmount     Float?  @default(0)
+  Ref_Emp_ID          String? @db.Text
+  Ref_Emp_Name        String? @db.Text
+  Ref_Emp_Phone       String? @db.Text
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model sales_return_items {
+  Sales_R_ID         Int?    @default(0)
+  Custom_Return_ID   String? @db.Text
+  SKU                String? @db.Text
+  Item_ID            String? @default("0") @db.VarChar(250)
+  Item_Name          String? @db.Text
+  Total_On_Inv       Float?  @default(0)
+  Qty_On_Inv         Float?  @default(0)
+  Return_Qty         Float?  @default(0)
+  Line_Total         Float?  @default(0)
+  Price              Float?  @default(0)
+  CostPrice          Float?  @default(0)
+  TotalCostPrice     Float?  @default(0)
+  TaxAmountOfOneItem Float?  @default(0)
+  OriginalSalesPrice Float?  @default(0)
+  Discount           Float?  @default(0)
+  OrderStatus        String? @db.Text
+  StockID            Int?    @default(0)
+  EngName            String? @db.Text
+  SinName            String? @db.Text
+  Warranty_Period    String? @db.Text
+  Serial_Number      String? @db.Text
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model sales_return_items_temp {
+  Sales_R_ID       Int?    @default(0)
+  Custom_Return_ID String? @db.Text
+  SKU              String? @db.Text
+  Item_ID          String? @db.Text
+  Item_Name        String? @db.Text
+  Price            String? @db.Text
+  Qty              String? @db.Text
+
+  @@ignore
+}
+
+model serial_number_list {
+  S_ID               Int     @id @default(autoincrement())
+  Section            String? @db.Text
+  Bill_No            String? @db.Text
+  Date               String? @default("1999-01-01") @db.VarChar(250)
+  Time               String? @default("00:00:00") @db.VarChar(250)
+  Item_AutoID        Int?    @default(0)
+  Item_CustomID      String? @db.Text
+  Serial_Number      String? @db.Text
+  Warranty_Period    String? @db.Text
+  Warranty_Available Int?    @default(0)
+  Current_Status     String? @db.Text
+  ClaimNote          String? @db.Text
+  Remark             String? @db.Text
+  Cust_ID            Int?    @default(0)
+  Description        String? @db.Text
+}
+
+model serial_numbers {
+  SN_Auto_ID     Int     @id @default(autoincrement())
+  Item_AutoID    Int?
+  Item_ID        String? @db.Text
+  Sales_Price    Float?
+  Serial_No      String? @db.Text
+  Current_Status String? @db.Text
+  Section        String? @db.Text
+  Section_Inv_ID String? @db.Text
+  Inv_Date       String? @db.Text
+  Warranty       String? @db.Text
+  Issued_ID      String? @default("") @db.VarChar(200)
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model settings {
+  Print_Invoice_When_Save               String? @db.Text
+  Print_Lang                            String? @db.Text
+  Auto_Backup                           String? @db.Text
+  Auto_Backup_Time                      String? @db.Text
+  Auto_Backup_Path                      String? @db.Text
+  PDF_Save_Path                         String? @db.Text
+  DateFormat                            String? @db.Text
+  TimeFormat                            String? @db.Text
+  DateStart                             String? @db.Text
+  NumberFormat                          String? @db.Text
+  Region                                String? @db.Text
+  Currency                              String? @db.Text
+  FullScreen                            Int?    @default(0)
+  Print_Po_When_Save                    Int?    @default(0)
+  Print_Grn_When_Save                   Int?    @default(0)
+  Print_GrnReturn_When_Save             Int?    @default(0)
+  Print_InvReturn_When_Save             Int?    @default(0)
+  Print_Quotation_When_Save             Int?    @default(0)
+  Print_NonInventory_When_Save          Int?    @default(0)
+  Print_AdjustStock_When_Save           Int?    @default(0)
+  StockColumnName                       String? @db.Text
+  StockOrder                            String? @db.Text
+  TableHeaderFontSize                   Int?    @default(0)
+  TableContentFontSize                  Int?    @default(0)
+  PosDisplay_OpenLine1                  String? @db.Text
+  PosDisplay_OpenLine2                  String? @db.Text
+  PosDisplay_CloseLine1                 String? @db.Text
+  PosDisplay_CloseLine2                 String? @db.Text
+  InvoiceType                           Int?    @default(0)
+  ReceivePOWhenSave                     Int?    @default(0)
+  NumberFormatForQty                    String? @db.Text
+  System_Pos_Type                       String? @default("Retail") @db.VarChar(150)
+  System_Package_Type                   String? @default("Premium") @db.VarChar(150)
+  Enable_Payment3rdStep                 Int?    @default(0)
+  Enable_MultipleCashRegister           Int?    @default(0)
+  Enable_TouchPosWindow                 Int?    @default(0)
+  Enable_SaleAdvanceOption              Int?    @default(0)
+  Enable_ChangeSalePrice                Int?    @default(1)
+  Enable_ChangeInvDiscount              Int?    @default(1)
+  Enable_ChangeWarehouse                Int?    @default(0)
+  Enable_AdvanceShippingCost            Int?    @default(0)
+  Enable_EditPrimaryKeyID               Int?    @default(0)
+  Type_JobCardOrWarrantyClaim           String? @db.Text
+  Enable_JobCardOrWarrantyClaim         Int?    @default(0)
+  Enable_Quotation                      Int?    @default(1)
+  Enable_Appoinment                     Int?    @default(0)
+  Enable_Promotion                      Int?    @default(0)
+  Enable_SmsCampaign                    Int?    @default(0)
+  InvItmScrhMaxRows                     Int?    @default(0)
+  SearchItemInAnyOrder                  Int?    @default(0)
+  StartSearchPressSpaceKey              Int?    @default(0)
+  IsWholeSaleItem                       Int?    @default(0)
+  TrialExpireDate                       String? @db.Text
+  Enable_TrialMode                      Int?    @default(0)
+  Enable_LimitedMode                    Int?    @default(0)
+  LicenseKey                            String? @db.Text
+  ShowMultiplePrinterWindow             Int?    @default(0)
+  Enable_SrchThreadMode                 Int?    @default(0)
+  Enable_SerianNoForPo                  Int?    @default(0)
+  ServiceAddKm                          Int?    @default(3000)
+  Enable_ShowBinLocation                Int?    @default(0)
+  Enable_RsDiscountMode                 Int?    @default(1)
+  PasswordForAdminPopup                 Int?    @default(1)
+  Enable_PasswordForChangeBillDiscount  Int?    @default(1)
+  Enable_PasswordForChangeItemDiscount  Int?    @default(1)
+  Enable_PasswordForChangeItemSalePrice Int?    @default(1)
+  Enable_PrintCashRegisterOpeningBill   Int?    @default(1)
+  Enable_WarrantyClaim                  Int?    @default(1)
+  Enable_JobCard                        Int?    @default(1)
+  Enable_PersonalPayment                Int?    @default(1)
+  Enable_BusinessPayment                Int?    @default(1)
+  Enable_CardPayment                    Int?    @default(1)
+  Enable_ItemRegistrationLimit          Int?    @default(1)
+  MaxItemRegistration                   Int?    @default(1)
+  BillEdit_AutoLock_Mins                Int?    @default(0)
+
+  @@ignore
+}
+
+model settings_barcode_templates {
+  listAutoID    Int     @id @default(autoincrement())
+  active_status Int?    @default(1)
+  full_name     String? @db.Text
+  roll_type     String? @db.Text
+  label_size    String? @db.Text
+  no_of_column  Int?    @default(1)
+  template_no   Int?    @default(1)
+  file_location String? @db.Text
+  notes         String? @db.Text
+}
+
+model settings_branch {
+  BranchID                  Int     @id @default(autoincrement())
+  BranchName                String? @db.Text
+  Enable_AFK                Int?    @default(0)
+  AFK_Action                String? @db.Text
+  Mask_Type                 String? @db.Text
+  AFK_Minutes               Int?    @default(5)
+  MultipleCashRegister      Int?    @default(0)
+  Enable_BankCardFee        Int?    @default(0)
+  BankCardFeePercentage     Float?  @default(3)
+  Enable_CardFeeWithInvDisc Int?    @default(0)
+  Enable_RemoveAllDiscount  Int?    @default(0)
+  Enable_FeeDeductFromCust  Int?    @default(1)
+}
+
+model settings_custom_price {
+  NumberN      Int     @id
+  CharacterTxt String? @db.Text
+}
+
+model settings_print_barcode {
+  id                        Int     @id
+  printer                   String? @db.VarChar(255)
+  barcode_type              String? @db.VarChar(255)
+  include_price             Int?    @default(0)
+  include_name              Int?    @default(0)
+  include_product_id        Int?    @default(0)
+  include_barcode           Int?    @default(0)
+  include_barcode_number    Int?    @default(0)
+  include_logo              Int?    @default(0)
+  include_company_name      Int?    @default(0)
+  include_company_telephone Int?    @default(0)
+  include_company_address   Int?    @default(0)
+  include_custom_text       Int?    @default(0)
+  custom_text               String? @db.VarChar(255)
+}
+
+model settings_terminal {
+  TerminalID        Int     @id @default(autoincrement())
+  TerminalName      String? @db.Text
+  Language          String? @db.Text
+  FullScreen        Int?    @default(0)
+  PosDisplayPort    String? @db.Text
+  Branch            String? @db.Text
+  Default_Server_PC Int?    @default(0)
+  IP_Address        String? @db.Text
+  PosDisplayOnOff   Int?    @default(0)
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model stock_adj_price_changed_items {
+  SA_ID     String? @db.Text
+  Item_Name String? @db.Text
+  Item_ID   String? @db.Text
+  Qty       Float?  @default(0)
+  Price     Float?  @default(0)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model stock_adjustment_changeprice {
+  SA_ID               Int?    @default(0)
+  SA_CustomID         String? @db.Text
+  Item_ID             String? @db.Text
+  Item_Name           String? @db.Text
+  CurrentCostPrice    Float?  @default(0)
+  NewCostPrice        Float?  @default(0)
+  CurrentSalesPrice   Float?  @default(0)
+  NewSalesPrice       Float?  @default(0)
+  Stock_ID            Int?    @default(0)
+  GRN_ID              String? @db.Text
+  CostChangesHistory  Float?  @default(0)
+  SalesChangesHistory Float?  @default(0)
+  Notes               String? @db.Text
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model stock_adjustment_changeqty {
+  SA_ID                       Int?    @default(0)
+  SA_CustomID                 String? @db.Text
+  Item_ID                     String? @db.Text
+  Item_Name                   String? @db.Text
+  CostPrice                   Float?  @default(0)
+  SalesPrice                  Float?  @default(0)
+  CurrentQty                  Float?  @default(0)
+  CurrentQtyWithoutAdjustment Float?  @default(0)
+  NewQty                      Float?  @default(0)
+  Stock_ID                    Int?    @default(0)
+  GRN_ID                      String? @db.Text
+  ChangesHistory              Float?  @default(0)
+  Notes                       String? @db.Text
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model stock_adjustment_items {
+  SA_ID             Int?    @default(0)
+  SA_CustomID       String? @db.Text
+  Item_ID           String? @db.Text
+  Item_Name         String? @db.Text
+  CurrentCostPrice  Float?  @default(0)
+  NewCostPrice      Float?  @default(0)
+  CurrentSalesPrice Float?  @default(0)
+  NewSalesPrice     Float?  @default(0)
+  CurrentQty        Float?  @default(0)
+  NewQty            Float?  @default(0)
+  Stock_ID          Int?    @default(0)
+  Notes             String? @db.Text
+  ChangesHistory    Float?  @default(0)
+
+  @@ignore
+}
+
+model stock_adjustmentn {
+  SA_ID        Int     @id @default(autoincrement())
+  SA_CustomID  String? @db.Text
+  SA_Date      String? @default("1999-01-01") @db.VarChar(250)
+  SA_Time      String? @default("00:00:00") @db.VarChar(250)
+  Status       String? @db.Text
+  AdjustReason String? @db.Text
+  Remark       String? @db.Text
+  User_ID      String? @db.Text
+  TypeName     String? @db.Text
+  TypeID       String? @db.Text
+}
+
+model supplier {
+  Supp_ID              Int     @id @default(autoincrement())
+  Supp_CustomID        String? @db.Text
+  Supp_Name            String? @db.Text
+  Company_Name         String? @db.Text
+  NIC                  String? @db.Text
+  Phone                String? @db.Text
+  Fax                  String? @db.Text
+  Email                String? @db.Text
+  Web                  String? @db.Text
+  Address1             String? @db.Text
+  Address2             String? @db.Text
+  Address3             String? @db.Text
+  Date_Of_Birth        String? @default("1999-01-01") @db.VarChar(250)
+  Gender               String? @db.Text
+  Supp_Group_Name      String? @db.Text
+  Remark               String? @db.Text
+  Credit_Card_Type     String? @db.Text
+  Card_Number          String? @db.Text
+  Expiration_date      String? @db.Text
+  Credit_Card_Bank     String? @db.Text
+  Internal_Notes       String? @db.Text
+  Auto_Email_Invoice   Int?    @default(0)
+  Premium_Membership   Int?    @default(0)
+  Store_Credit_Enabled Int?    @default(0)
+  Store_Credit_Amount  Float?  @default(0)
+  Account_Balance      Float?  @default(0)
+  Account_Limit        Float?  @default(0)
+  Last_Visit           String? @db.Text
+  Total_Orders         Float?  @default(0)
+  Total_Spent          Float?  @default(0)
+  AutoCustomID         Int?    @default(0)
+}
+
+model supplier_account {
+  Acc_Transaction_ID Int     @id @default(autoincrement())
+  Date               String? @default("1999-01-01") @db.VarChar(250)
+  Time               String? @default("00:00:00") @db.VarChar(250)
+  Action             String? @db.Text
+  Details            String? @db.Text
+  Details_ID         String? @db.Text
+  Amount             Float?  @default(0)
+  Supp_ID            Int?    @default(0)
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model supplier_groups {
+  Group_Name  String? @db.Text
+  Description String? @db.Text
+
+  @@ignore
+}
+
+model supplier_store_credit {
+  Store_Credit_ID Int     @id @default(autoincrement())
+  Date            String? @default("1999-01-01") @db.VarChar(250)
+  Time            String? @default("00:00:00") @db.VarChar(250)
+  Action          String? @db.Text
+  Details         String? @db.Text
+  Details_ID      String? @db.Text
+  Amount          Float?  @default(0)
+  Supp_ID         Int?    @default(-1)
+}
+
+model tableorder {
+  tbl_id              Int     @id @default(autoincrement())
+  SupListHeader       String? @db.Text
+  PoListHeader        String? @db.Text
+  GrnListHeader       String? @db.Text
+  PoReturnListHeader  String? @db.Text
+  InvoiceListHeader   String? @db.Text
+  InvReturnListHeader String? @db.Text
+  QutationListHeader  String? @db.Text
+  ItemListHeader      String? @db.Text
+  NonInvListHeader    String? @db.Text
+  CusOrderHistory     String? @db.Text
+  CusList             String? @db.Text
+  CurrentStockHeader  String? @db.Text
+  LowStockHeader      String? @db.Text
+  AdjestPoListHeader  String? @db.Text
+  TransactionList     String? @db.Text
+}
+
+model tax_method {
+  Tax_ID Int     @id @default(autoincrement())
+  Name   String? @db.Text
+  Markup Float?  @default(0)
+}
+
+model usertype_permissions {
+  User_Type                  String @id @db.VarChar(250)
+  View_PurchaseSection       Int?   @default(0)
+  View_StockSection          Int?   @default(0)
+  View_SalesSection          Int?   @default(0)
+  View_StatisticsSection     Int?   @default(0)
+  View_BackOfficeSection     Int?   @default(0)
+  New_Supplier               Int?   @default(0)
+  New_Product                Int?   @default(0)
+  New_PO                     Int?   @default(0)
+  New_GRN                    Int?   @default(0)
+  New_GRN_Return             Int?   @default(0)
+  New_SalesInvoice           Int?   @default(0)
+  New_Quotation              Int?   @default(0)
+  NEW_Sales_Return           Int?   @default(0)
+  New_NonInvBill             Int?   @default(0)
+  New_Promotion              Int?   @default(0)
+  New_Customer               Int?   @default(0)
+  New_AdjustStock            Int?   @default(0)
+  New_Reference              Int?   @default(0)
+  New_PrinterSetting         Int?   @default(0)
+  New_UserAccount            Int?   @default(0)
+  New_UserType               Int?   @default(0)
+  Edit_Supplier              Int?   @default(0)
+  Edit_Product               Int?   @default(0)
+  Edit_PO                    Int?   @default(0)
+  Edit_GRN                   Int?   @default(0)
+  Edit_GRN_Return            Int?   @default(0)
+  Edit_SalesInvoice          Int?   @default(0)
+  Edit_Quotation             Int?   @default(0)
+  Edit_Sales_Return          Int?   @default(0)
+  Edit_NonInvBill            Int?   @default(0)
+  Edit_Promotion             Int?   @default(0)
+  Edit_Customer              Int?   @default(0)
+  Edit_AdjustStock           Int?   @default(0)
+  Edit_Reference             Int?   @default(0)
+  Edit_PrinterSetting        Int?   @default(0)
+  Edit_UserAccount           Int?   @default(0)
+  Edit_UserType              Int?   @default(0)
+  Delete_Supplier            Int?   @default(0)
+  Delete_Product             Int?   @default(0)
+  Delete_PO                  Int?   @default(0)
+  Delete_GRN                 Int?   @default(0)
+  Delete_GRN_Return          Int?   @default(0)
+  Delete_SalesInvoice        Int?   @default(0)
+  Delete_Quotation           Int?   @default(0)
+  Delete_Sales_Return        Int?   @default(0)
+  Delete_NonInvBill          Int?   @default(0)
+  Delete_Promotion           Int?   @default(0)
+  Delete_Customer            Int?   @default(0)
+  Delete_AdjustStock         Int?   @default(0)
+  Delete_Reference           Int?   @default(0)
+  Delete_PrinterSetting      Int?   @default(0)
+  Delete_UserAccount         Int?   @default(0)
+  Delete_UserType            Int?   @default(0)
+  Manage_Backup              Int?   @default(0)
+  Manage_Event               Int?   @default(0)
+  Cash_Management            Int?   @default(0)
+  Overview_Finance_Reports   Int?   @default(0)
+  Print_Reports              Int?   @default(0)
+  Manage_GeneralSettings     Int?   @default(0)
+  SuperAdmin                 Int?   @default(0)
+  AutoLock_InvoiceBillEdit   Int?   @default(0)
+  AutoLock_QuotationBillEdit Int?   @default(0)
+  AutoLock_ReturnBillEdit    Int?   @default(0)
+  Change_InvSalesPrice       Int?   @default(1)
+  Change_InvDiscount         Int?   @default(1)
+  Show_CostPrice             Int?   @default(1)
+  Load_Discount              Int?   @default(1)
+  Delete_InvItem             Int?   @default(1)
+}
+
+model variants_type {
+  V_ID        Int     @id @default(autoincrement())
+  Name        String? @db.Text
+  Description String? @db.Text
+}
+
+model warehouse {
+  Warehouse   String @id @db.VarChar(250)
+  Description String @db.Text
+}
+
+model warehouse_list {
+  Warehouse_ID        Int     @id @default(autoincrement())
+  Warehouse_CustomID  String? @db.Text
+  Warehouse           String? @db.Text
+  Description         String? @db.Text
+  Branch_ID           String? @db.Text
+  Branch_Name         String? @db.Text
+  StartSaleInvProcess Int?    @default(0)
+}
+
+model warranty_claim {
+  Wc_AutoID     Int     @id @default(autoincrement())
+  Wc_CustomID   String? @db.Text
+  Inv_Section   String? @db.Text
+  Inv_No        String? @db.Text
+  Claim_Reason  String? @db.Text
+  Remark        String? @db.Text
+  Note          String? @db.Text
+  Cust_ID       Int?    @default(0)
+  Cust_Name     String? @db.Text
+  Cust_Phone    String? @db.Text
+  Cust_Address1 String? @db.Text
+  Cust_Address2 String? @db.Text
+  Cust_Address3 String? @db.Text
+  Cust_RefID    String? @db.Text
+  Cust_RefName  String? @db.Text
+  Cust_RefPhone String? @db.Text
+  CashierID     String? @db.Text
+  PriceLost     Float?  @default(0)
+  Create_Date   String? @default("1999-01-01") @db.VarChar(250)
+  Create_Time   String? @default("00:00:00") @db.VarChar(250)
+  Status_Date   String? @default("1999-01-01") @db.VarChar(250)
+  Status_Time   String? @default("00:00:00") @db.VarChar(250)
+  Wc_Status     String? @db.Text
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model warranty_claim_items {
+  Claim_AutoID      Int?    @default(0)
+  Claim_CustomID    String? @db.Text
+  ItemID            String? @db.Text
+  ItemName          String? @db.Text
+  CostPrice         Float?  @default(0)
+  SalePrice         Float?  @default(0)
+  SalePriceOriginal Float?  @default(0)
+  Qty               Float?  @default(0)
+  SerialNo          String? @db.Text
+  WarrantyAvailable Int?    @default(0)
+  WarrantyPeriod    String? @db.Text
+  StockID           Int?    @default(0)
+  ChargeStatus      String? @db.Text
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model warranty_claim_new_items {
+  List_Order             Int?    @default(0)
+  WC_AutoID              Int?    @default(0)
+  WC_CustomID            String? @db.Text
+  Item_ID                String? @db.Text
+  Item_Name              String? @db.Text
+  Eng_Name               String? @db.Text
+  Sin_Name               String? @db.Text
+  Qty                    Float?  @default(0)
+  SalePrice              Float?  @default(0)
+  Discount               Float?  @default(0)
+  DisPercentage          Float?  @default(0)
+  Line_Total             Float?  @default(0)
+  LineTotWithoutDiscount Float?  @default(0)
+  SalesPriceOriginal     Float?  @default(0)
+  Total_CostPrice        Float?  @default(0)
+  TaxAmoutOfOneItem      Float?  @default(0)
+  CostPriceOfOneItem     Float?  @default(0)
+  OrderStatus            String? @db.Text
+  ItemCategory           String? @db.Text
+  IssuedQty              Float?  @default(0)
+  Warranty_Period        String? @db.Text
+  Serial_Number          String? @db.Text
+  ItemStockType          String? @default("Inventory") @db.VarChar(120)
+  IssuedStatus           String? @db.Text
+  Original_ItemName      String? @db.Text
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model warranty_claim_request_items {
+  List_Order              Int?    @default(0)
+  WC_AutoID               Int?    @default(0)
+  WC_CustomID             String? @db.Text
+  Item_ID                 String? @db.Text
+  Item_Name               String? @db.Text
+  Item_Name_Original      String? @db.Text
+  Cost_Price              Float?  @default(0)
+  Sale_Price              Float?  @default(0)
+  Sale_Price_Original     Float?  @default(0)
+  Inv_Qty                 Float?  @default(0)
+  Return_Qty              Float?  @default(0)
+  Serial_Number           String? @db.Text
+  Current_Warranty_Period String? @db.Text
+  Item_Stock_Type         String? @db.Text
+  Item_SinName            String? @db.Text
+  Item_EngName            String? @db.Text
+
+  @@ignore
+}
